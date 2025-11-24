@@ -1,0 +1,12 @@
+[project]
+name = "goblin-api"
+version = "0.1.0"
+description = "Web-facing API that exposes access to various personal automation and efficiency tools"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi[standard]>=0.121.3",
+]
+
+[dependency-groups]
+dev = []
