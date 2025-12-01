@@ -9,4 +9,7 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = []
+dev = [
+    "mypy>=1.19.0",
+    "ruff>=0.14.7",
+]
