@@ -13,3 +13,24 @@ dev = [
     "mypy>=1.19.0",
     "ruff>=0.14.7",
 ]
+
+[tool.ruff]
+line-length = 88
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["ALL"]
+fixable = ["ALL"]
+ignore = ["D", "E501", "S607", "S603"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+docstring-code-format = true
+line-ending = "auto"
+
+[tool.mypy]
+strict = true
+warn_unused_ignores = true
+exclude = ["venv/", ".venv/"]
