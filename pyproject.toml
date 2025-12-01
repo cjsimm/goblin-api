@@ -21,7 +21,12 @@ target-version = "py314"
 [tool.ruff.lint]
 select = ["ALL"]
 fixable = ["ALL"]
-ignore = ["D", "E501", "S607", "S603"]
+ignore = [
+    "D", 
+    "E501", 
+    "S607", # process with partial path
+    "S603"  # subprocess without shell
+]
 
 [tool.ruff.format]
 quote-style = "double"
