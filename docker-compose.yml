@@ -1,8 +1,13 @@
 services:
   backend:
-    build: .
+    build: 
+      context: .
+      args:
+        MARKDOWN_COLLECTION_REPO_URL: ${MARKDOWN_COLLECTION_REPO_URL} # obsidian vault repo url
     ports:
       - "8000:8000"
+    env_file:
+      - .env
     develop:
       watch:
         - action: sync
