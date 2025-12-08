@@ -2,26 +2,24 @@
 
 from pathlib import Path
 
+from src.constants import MARKDOWN_COLLECTION_PATH
 from src.git import GitClient
 
 TEMPLATE_PATH = Path("src/templates")
-# make this a symlink inside the folder?
-MARKDOWN_COLLECTION_PATH = Path("obsidian-vault")
-
 FLEETING_NOTE_TEMPLATE = "fleeting_note.md"
 
 
-def write_template_to_markdown_collection(data: str, template_file: str) -> Path:
+def write_template_to_markdown_collection(
+    data: str, template_path: Path, output_path: Path
+) -> str:
     """Inject data into a template file and save it to a directory inside the symlinked obsidian vault"""
-    template_path = TEMPLATE_PATH / template_file
     with template_path.open() as f:
         fleeting_template = f.read()
     # needs to be generalized. probably need a mapping between pydantic models and templates, then a parser for the note that can parse the string and organize the data for easy injection into the template
     note = fleeting_template.format(capture=data)
-    new_filename = MARKDOWN_COLLECTION_PATH / data
-    with new_filename.open() as f:
+    with output_path.open("w") as f:
         f.write(note)
-    return new_filename
+    return note
 
 
 def sync_note_to_origin(new_file: Path) -> None:
