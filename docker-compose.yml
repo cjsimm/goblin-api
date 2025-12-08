@@ -4,6 +4,7 @@ services:
       context: .
       args:
         MARKDOWN_COLLECTION_REPO_URL: ${MARKDOWN_COLLECTION_REPO_URL} # obsidian vault repo url
+        MARKDOWN_COLLECTION_DIR: ${MARKDOWN_COLLECTION_DIR} # directory that markdown collection repo is pulled into
     ports:
       - "8000:8000"
     env_file:
