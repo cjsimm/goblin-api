@@ -1,8 +1,10 @@
 from fastapi import APIRouter, BackgroundTasks, Response
 from pydantic import BaseModel
 
+from src.constants import FLEETING_NOTE_PATH, MARKDOWN_COLLECTION_PATH
 from src.markdown import (
     FLEETING_NOTE_TEMPLATE,
+    TEMPLATE_PATH,
     sync_note_to_origin,
     write_template_to_markdown_collection,
 )
@@ -21,9 +23,10 @@ zk = APIRouter(prefix="/zk")
 async def create(background_tasks: BackgroundTasks) -> Response:
     """Create a fleeting zk note and add it to an obsidian vault in the unsorted category"""
     original_note = "placeholder"
-    note_filename = write_template_to_markdown_collection(
-        original_note,
-        FLEETING_NOTE_TEMPLATE,
+    target_path = FLEETING_NOTE_PATH / original_note
+    write_template_to_markdown_collection(
+        original_note, TEMPLATE_PATH / FLEETING_NOTE_TEMPLATE, target_path
     )
-    background_tasks.add_task(sync_note_to_origin, note_filename)
+    new_file_relative_path = target_path.relative_to(MARKDOWN_COLLECTION_PATH)
+    background_tasks.add_task(sync_note_to_origin, new_file_relative_path)
     return Response()
