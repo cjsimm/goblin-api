@@ -4,4 +4,4 @@ tags:
     - unsorted
 ---
 
-{ original message }
+{capture}
