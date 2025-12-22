@@ -6,12 +6,17 @@ constants and env variables/secrets required by the application and api
 import os
 from pathlib import Path
 
-ZK_BOT_TOKEN = os.getenv("ZK_BOT_TOKEN")
-MARKDOWN_COLLECTION_DIR = os.getenv("MARKDOWN_COLLECTION_DIR")
-FLEETING_NOTE_DIR = os.getenv("FLEETING_NOTE_DIR", "")
+def get_env_var(env_var_name: str, *, allow_empty=False) -> str:
+    """Get env var or throw error"""
+    var = os.getenv(env_var_name, "")
+    if not var and not allow_empty:
+        raise ValueError(f"env var {env_var_name} is not set")
+    return var
 
-if MARKDOWN_COLLECTION_DIR is None:
-    raise ValueError("MARKDOWN_COLLECTION_PATH is not populated with a value")
+ZK_BOT_TOKEN = get_env_var("ZK_BOT_TOKEN")
+MARKDOWN_COLLECTION_DIR = get_env_var("MARKDOWN_COLLECTION_DIR")
+FLEETING_NOTE_DIR = get_env_var("FLEETING_NOTE_DIR", allow_empty=True)
+
 
 MARKDOWN_COLLECTION_PATH = Path(".", MARKDOWN_COLLECTION_DIR)
 print(MARKDOWN_COLLECTION_PATH)
