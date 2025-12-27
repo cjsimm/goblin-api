@@ -9,6 +9,13 @@ TEMPLATE_PATH = Path("src/templates")
 FLEETING_NOTE_TEMPLATE = "fleeting_note.md"
 
 
+def format_fleeting_note_filename(raw_text: str) -> str:
+    """Process raw text of the fleeting note to create a more appropriate filename"""
+    # replace spaces with hyphens or underscores? strip whitespace? remove punctuation?
+    # figure out a better filename strategy later
+    return raw_text.lower()
+
+
 def write_template_to_markdown_collection(
     data: str, template_path: Path, output_path: Path
 ) -> str:
