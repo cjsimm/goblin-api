@@ -1,8 +1,22 @@
+from collections.abc import AsyncGenerator
+from contextlib import asynccontextmanager
+from typing import Any
+
 from fastapi import APIRouter, FastAPI, Response
 
 from src.api.zk import zk
+from src.services import telegram
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncGenerator[Any, Any, Any]:
+    """Startup and shutdown code to run around the lifespan of the FastAPI app. These calls will execute per app, per worker. Anything called here will not be indempotent between workers"""
+    await telegram.start_application()
+    yield
+    await telegram.stop_application()
+
+
+app = FastAPI(lifespan=lifespan)
 
 v1_router = APIRouter(prefix="/api/v1")
 
