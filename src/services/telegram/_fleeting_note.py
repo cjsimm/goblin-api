@@ -2,11 +2,13 @@
 Callback handler dealing with fleeting note submissions to the telegram bot
 """
 
+from telegram import Update
 from telegram.ext import ContextTypes, MessageHandler
+from telegram.ext.filters import User
 
+from src.constants import TG_USER_ID
 from src.markdown import sync_note_to_origin
 from src.tasks import process_fleeting_note
-from telegram import Update
 
 
 async def fleeting_note(update: Update, ctx: ContextTypes.DEFAULT_TYPE) -> None:
@@ -30,4 +32,4 @@ async def fleeting_note(update: Update, ctx: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("received a message via the webhook")
 
 
-fleeting_note_handler = MessageHandler(None, fleeting_note)
+fleeting_note_handler = MessageHandler(filters=User(TG_USER_ID), callback=fleeting_note)
