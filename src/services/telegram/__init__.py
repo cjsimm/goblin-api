@@ -1,15 +1,21 @@
 """Functionality related to the Telegram messaging app"""
 
+from telegram import Update
 from telegram.ext import Application, Updater
 
 from src.constants import API_PUBLIC_URL, ZK_BOT_TOKEN, ZK_WEBHOOK_KEY
-from telegram import Update
 
 from ._fleeting_note import fleeting_note_handler
+from ._start import start_handler
 
 # Define globally for easy access. Calls using this bot won't work unless
 # start_application has been called
 app = Application.builder().token(ZK_BOT_TOKEN).updater(None).build()
+# Improvement: create an auth handler here that dumps the message early before
+# hitting other handlers to remove the requirement to filter everything with
+# User
+app.add_handler(start_handler)
+app.add_handler(fleeting_note_handler)
 
 
 async def start_application() -> Application:
@@ -25,7 +31,6 @@ async def start_application() -> Application:
     updater = Updater(app.bot, update_queue=app.update_queue)
     await updater.initialize()
     await updater.start_polling(poll_interval=1)
-    app.add_handler(fleeting_note_handler)
     await app.initialize()
     await app.start()
     return app
