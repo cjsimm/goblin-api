@@ -24,7 +24,8 @@ def get_env_var(env_var_name: str) -> str:
 
 # ZK Telegram bot
 ZK_WEBHOOK_KEY = get_env_var_allow_null("ZK_WEBHOOK_KEY", allow_empty=True)
-ZK_BOT_TOKEN: str = get_env_var("ZK_BOT_TOKEN")
+ZK_BOT_TOKEN = get_env_var("ZK_BOT_TOKEN")
+TG_USER_ID = int(get_env_var("TG_USER_ID"))
 
 MARKDOWN_COLLECTION_DIR = get_env_var_allow_null("MARKDOWN_COLLECTION_DIR")
 FLEETING_NOTE_DIR = get_env_var_allow_null("FLEETING_NOTE_DIR", allow_empty=True)
