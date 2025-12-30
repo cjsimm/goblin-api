@@ -3,8 +3,6 @@
 
 # Todo and Bugs
 
-- /start is not handled correctly by the bot - need to implement this
-- / commands create issues with the file naming because we're using the note itself to set a path. forward slashes need to be escaped by the Path object, or they need to be disallowed
 
 
 # ZK Bot Setup

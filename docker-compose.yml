@@ -17,5 +17,6 @@ services:
           ignore:
             - pyproject.toml
             - uv.lock
+        # this doesnt seem to work correctly
         - action: rebuild
           path: uv.lock
