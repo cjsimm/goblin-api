@@ -11,9 +11,12 @@ FLEETING_NOTE_TEMPLATE = "fleeting_note.md"
 
 def format_fleeting_note_filename(raw_text: str) -> str:
     """Process raw text of the fleeting note to create a more appropriate filename"""
-    # replace spaces with hyphens or underscores? strip whitespace? remove punctuation?
+    # replace spaces with hyphens or underscores? strip whitespace? remove
+    # punctuation?
     # figure out a better filename strategy later
-    return raw_text.lower()
+    # create diff on replacement strategy if on windows later - many more file
+    # name restrictions on windows
+    return raw_text.lower().encode("unicode_escape").decode().replace("/", "")
 
 
 def write_template_to_markdown_collection(
@@ -22,7 +25,9 @@ def write_template_to_markdown_collection(
     """Inject data into a template file and save it to a directory inside the symlinked obsidian vault"""
     with template_path.open() as f:
         fleeting_template = f.read()
-    # needs to be generalized. probably need a mapping between pydantic models and templates, then a parser for the note that can parse the string and organize the data for easy injection into the template
+    # needs to be generalized. probably need a mapping between pydantic models
+    # and templates, then a parser for the note that can parse the string and
+    # organize the data for easy injection into the template
     note = fleeting_template.format(capture=data)
     with output_path.open("w") as f:
         f.write(note)
