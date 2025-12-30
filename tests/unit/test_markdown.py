@@ -18,7 +18,7 @@ def test_write_template_to_markdown_collection(
     template_file: NoteTemplate, tmp_path: Path
 ) -> None:
     """Test that data is correctly injected into a template str opened from the filesystem"""
-    expected_interpolation = "expected_interpolation"
+    expected_interpolation = "expected_interpolation even / with escape chars"
     template_path = tmp_path / "test_template.md"
     template_path.write_text(str(template_file))
     output = write_template_to_markdown_collection(
