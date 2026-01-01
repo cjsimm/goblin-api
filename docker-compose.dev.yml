@@ -9,8 +9,10 @@ services:
             - pyproject.toml
             - uv.lock
             - nginx/*
+            - certs/*
         - action: rebuild
           path: ./uv.lock
+          target: /app
   nginx:
     volumes:
       - ./nginx/dev.conf:/etc/nginx/conf.d/nginx.conf:ro
