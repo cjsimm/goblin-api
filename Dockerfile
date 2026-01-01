@@ -1,4 +1,8 @@
 FROM ghcr.io/astral-sh/uv:python3.14-rc-bookworm-slim
+# curl for status check
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl && \
+    rm -rf /var/lib/apt/lists/*
 ARG MARKDOWN_COLLECTION_REPO_URL
 ARG MARKDOWN_COLLECTION_DIR
 ADD . /app
