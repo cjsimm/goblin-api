@@ -1,3 +1,4 @@
+# Run in combination with the .dev file for development
 services:
   backend:
     build: 
@@ -5,18 +6,23 @@ services:
       args:
         MARKDOWN_COLLECTION_REPO_URL: ${MARKDOWN_COLLECTION_REPO_URL} # obsidian vault repo url
         MARKDOWN_COLLECTION_DIR: ${MARKDOWN_COLLECTION_DIR} # directory that markdown collection repo is pulled into
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     env_file:
       - .env
-    develop:
-      watch:
-        - action: sync
-          path: .
-          target: /app
-          ignore:
-            - pyproject.toml
-            - uv.lock
-        # this doesnt seem to work correctly
-        - action: rebuild
-          path: uv.lock
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s     
+  nginx:
+    image: nginx:stable
+    volumes:
+      - ./certs:/etc/nginx/certs:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+

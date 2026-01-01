@@ -1,0 +1,16 @@
+services:
+  backend:
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app
+          ignore:
+            - pyproject.toml
+            - uv.lock
+            - nginx/*
+        - action: rebuild
+          path: ./uv.lock
+  nginx:
+    volumes:
+      - ./nginx/dev.conf:/etc/nginx/conf.d/nginx.conf:ro

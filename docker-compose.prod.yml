@@ -1,0 +1,5 @@
+# additionally bind 443 to the reverse proxy in prod
+services:
+  nginx:
+    volumes:
+      - ./nginx/prod.conf:/etc/nginx/conf.d/nginx.conf:ro
