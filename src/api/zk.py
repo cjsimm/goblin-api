@@ -1,4 +1,13 @@
-from fastapi import APIRouter, BackgroundTasks, Body, HTTPException, Response
+from fastapi import (
+    APIRouter,
+    BackgroundTasks,
+    Body,
+    Depends,
+    HTTPException,
+    Response,
+    status,
+)
+from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
 
 from src.constants import FLEETING_NOTE_PATH, MARKDOWN_COLLECTION_PATH
@@ -17,7 +26,17 @@ class TelegramUpdate(BaseModel):
     """
 
 
-zk = APIRouter(prefix="/zk")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
+
+
+async def block_requests() -> None:
+    """Middleware to block an endpoint from being called"""
+    raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Not authenticated")
+
+
+zk = APIRouter(
+    prefix="/zk", dependencies=[Depends(block_requests), Depends(oauth2_scheme)]
+)
 
 
 @zk.post("/fleeting")
